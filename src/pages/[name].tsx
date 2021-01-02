@@ -15,9 +15,7 @@ interface IndexProps {
 
 interface ExpectedResponse {
   type: 'Response';
-  data: {
-    Country: Country[];
-  };
+  Country: Country[];
 }
 
 const Index: FunctionalComponent<IndexProps> = ({ countries }) => {
@@ -65,7 +63,7 @@ export default definePage(Index, {
     `;
 
     const response: ExpectedResponse = await GraphQL(query);
-    const paths = response.data.Country.map(({ name }) => ({ params: { name: name.toLowerCase() } }));
+    const paths = response.Country.map(({ name }) => ({ params: { name: name.toLowerCase() } }));
 
     return { paths };
   },
@@ -85,7 +83,7 @@ export default definePage(Index, {
     });
 
     return {
-      props: { countries: response.data.Country },
+      props: { countries: response.Country },
     };
   },
 });
