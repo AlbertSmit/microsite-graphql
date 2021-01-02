@@ -1,6 +1,6 @@
-# Microsite Starter
+# Microsite GraphQL Example
 
-Microsite is a next-generation static site generator.
+Example of GraphQL issues I ran into.
 
 ## Getting Started
 

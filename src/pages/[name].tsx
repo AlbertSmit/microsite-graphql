@@ -72,7 +72,7 @@ export default definePage(Index, {
   },
   async getStaticProps({ params }) {
     const query = `
-      query Country($name: String!) {
+      query countries($name: String!) {
         Country(name: $name) {
           name
           capital
