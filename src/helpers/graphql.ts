@@ -1,20 +1,26 @@
+import { ApolloClient, InMemoryCache } from '@apollo/client';
+
 /**
- * Helper to run fetch w/ GraphQL.
- * ------
- * @param {string} query to run for GraphQL.
- * @param {object} variables for querying.
+ * Error:
+ * [snowpack] node_modules/@apollo/client/react/context/ApolloConsumer.js
+ * Module "react" could not be resolved by Snowpack (Is it installed?).
+ *
+ * Solution:
+ * Add the following to snowpack config:
+ * (node_modules/microsite/assets/snowpack.config.cjs)
+ * -----
+ * {
+ *    alias: {
+ *      "react": "preact/compat",
+ *      "react-dom": "preact/compat"
+ *    }
+ * }
  */
-const GraphQL = async (query: string, variables?: { [key: string]: string }) =>
-  await fetch('https://countries-274616.ew.r.appspot.com/', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-    },
-    body: JSON.stringify({ query, variables }),
-  })
-    .then(r => r.json())
-    .then(data => data)
-    .catch(e => console.error(e));
+
+// Apollo
+const GraphQL = new ApolloClient({
+  uri: 'https://countries-274616.ew.r.appspot.com',
+  cache: new InMemoryCache(),
+});
 
 export default GraphQL;

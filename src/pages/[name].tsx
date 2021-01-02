@@ -1,8 +1,8 @@
 import { FunctionalComponent } from 'preact';
 import { definePage } from 'microsite/page';
 import { Head, seo } from 'microsite/head';
-import GraphQL from '@/helpers/graphql';
-import capitalizeFirstLetter from '@/helpers/string';
+import { GraphQL, capitalizeFirstLetter } from '@/helpers';
+import { ApolloQueryResult, gql } from '@apollo/client';
 
 type Country = {
   name: string;
@@ -12,13 +12,6 @@ type Country = {
 
 interface IndexProps {
   countries: Country[];
-}
-
-interface ExpectedResponse {
-  type: 'Response';
-  data: {
-    Country: Country[];
-  };
 }
 
 const Index: FunctionalComponent<IndexProps> = ({ countries }) => {
@@ -65,7 +58,12 @@ export default definePage(Index, {
       }
     `;
 
-    const response: ExpectedResponse = await GraphQL(query);
+    const response: { data: { Country: Country[] } } = await GraphQL.query({
+      query: gql`
+        ${query}
+      `,
+    });
+    console.log(response);
     const paths = response.data.Country.map(({ name }) => ({ params: { name: name.toLowerCase() } }));
 
     return { paths };
@@ -81,8 +79,13 @@ export default definePage(Index, {
       }
     `;
 
-    const response: ExpectedResponse = await GraphQL(query, {
-      name: capitalizeFirstLetter(params.name),
+    const response: { data: { Country: Country[] } } = await GraphQL.query({
+      query: gql`
+        ${query}
+      `,
+      variables: {
+        name: capitalizeFirstLetter(params.name),
+      },
     });
 
     return {
