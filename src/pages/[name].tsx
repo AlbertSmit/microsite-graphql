@@ -1,8 +1,7 @@
 import { FunctionalComponent } from 'preact';
 import { definePage } from 'microsite/page';
 import { Head, seo } from 'microsite/head';
-import GraphQL from '@/helpers/graphql';
-import capitalizeFirstLetter from '@/helpers/string';
+import { GraphQL, capitalizeFirstLetter } from '@/helpers';
 
 type Country = {
   name: string;
