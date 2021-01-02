@@ -5,6 +5,7 @@ import { GraphQL, capitalizeFirstLetter } from '@/helpers';
 import { ApolloQueryResult, gql } from '@apollo/client';
 
 type Country = {
+  type: 'Country';
   name: string;
   capital: string;
   population: number;
@@ -58,12 +59,11 @@ export default definePage(Index, {
       }
     `;
 
-    const response: { data: { Country: Country[] } } = await GraphQL.query({
+    const response: ApolloQueryResult<Country[]> = await GraphQL.query({
       query: gql`
         ${query}
       `,
     });
-    console.log(response);
     const paths = response.data.Country.map(({ name }) => ({ params: { name: name.toLowerCase() } }));
 
     return { paths };
